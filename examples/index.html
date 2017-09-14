@@ -1,0 +1,204 @@
+<html>
+<head>
+    <title>Backbone Controls Examples</title>
+
+    <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../node_modules/font-awesome/css/font-awesome.min.css" />
+
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../node_modules/underscore/underscore.js"></script>
+    <script src="../node_modules/backbone/backbone.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="../src/form.js"></script>
+    <script src="../src/datamodel.js"></script>
+    <script src="../src/field.js"></script>
+    <script src="../src/control.js"></script>
+    <script src="../src/controls/text.js"></script>
+    <script src="../src/controls/number.js"></script>
+    <script src="../src/controls/textarea.js"></script>
+    <script src="../src/controls/hidden.js"></script>
+    <script src="../src/controls/select.js"></script>
+    <script src="../src/controls/checkbox.js"></script>
+    <script src="../src/controls/button.js"></script>
+    <script src="../src/controls/date.js"></script>
+    <script src="../src/validators.js"></script>
+    <script src="../src/templates/bootstrap3.js"></script>
+
+    <!-- ChosenJS -->
+    <link rel="stylesheet" type="text/css" href="../node_modules/chosen-js/chosen.min.css">
+    <script src="../node_modules/chosen-js/chosen.jquery.min.js"></script>
+    <script src="../src/plugins/chosen/controls/chosenselect.js"></script>
+
+    <!-- Datepicker -->
+    <link rel="stylesheet" type="text/css" href="../node_modules/pickadate/lib/themes/default.css">
+    <link rel="stylesheet" type="text/css" href="../node_modules/pickadate/lib/themes/default.date.css">
+    <link rel="stylesheet" type="text/css" href="../node_modules/pickadate/lib/themes/default.time.css">
+    <script src="../node_modules/pickadate/lib/picker.js"></script>
+    <script src="../node_modules/pickadate/lib/picker.date.js"></script>
+    <script src="../node_modules/pickadate/lib/picker.time.js"></script>
+
+
+    <script src="testmodel.js"></script>
+    <style>
+        form .form-group .help-text {
+            font-weight: normal;
+            font-style: italic;
+            /*
+            visibility: hidden;
+            display: none;
+            */
+        }
+        form .form-group.is-active .help-text {
+            visibility: visible;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Backbone Controls Examples</h1>
+
+    <div id="field-test"></div>
+
+    <div id="form-container" style="max-width: 800px;"></div>
+
+    <!--
+    <div id="chosen-test">
+        <select id="chosen-select">
+            <option value="foo">Foo</option>
+            <option value="bar">Bar</option>
+        </select>
+
+    </div>
+    <script>
+        $('#chosen-select').chosen();
+    </script>
+    -->
+
+    <script>
+        //var f1 = new Field({id: 'f1', 'name': 'f1', type: 'Text'});
+        //f1.setElement('#field-test');
+        //f1.render();
+
+        var model = new TestModel();
+
+        var form1 = new Backbone.Form({
+            formValidate: false,
+            model: model,
+            /*
+            schema: {
+                id: {
+                    type: 'Hidden',
+                    required: true,
+                    rules: {
+                        numeric: {},
+                    }
+                },
+                int: {
+                    type: 'Number',
+                    required: true,
+                    label: "Int Number",
+                    help: "An integer value between 0 and 100",
+                    rules: {
+                        "range": {min: 0, max: 100}
+                    }
+                },
+                title: {
+                    type: 'Text',
+                    required: true,
+                    rules: {
+                    }
+                },
+                email: {
+                    type: 'Text',
+                    required: false,
+                    rules: {
+                        "notempty": {},
+                        "email": {}
+                    }
+                },
+                body: {
+                    type: 'Textarea',
+                    required: true,
+                    controlAttrs: {
+                        rows: 7
+                    }
+                },
+                is_published: {
+                    type: 'Checkbox'
+                },
+                category_id: {
+                    type: 'Select',
+                    options: {
+                        1: "Blog",
+                        2: "News"
+                    }
+                },
+                format: {
+                    type: 'Select',
+                    options: function() {
+                        return {
+                            "json": "JSON Format",
+                            "xml": "XML Format"
+                        }
+                    },
+                    //empty: "- Default -",
+                    empty: true,
+                    required: true,
+                    rules: {
+                        "notempty": {}
+                    }
+                },
+                publish_date: {
+                    type: 'Date'
+                }
+            },
+            */
+            //method: 'POST',
+            action: 'json.php',
+            ajax: 'json',
+            //validate: 'default',
+            idPrefix: 'test_',
+            formAttrs: {
+                id: 'my-form-id',
+                class: 'my-form form-horizontal'
+            },
+            /*
+            data: {
+                id: 12,
+                title: "Awsome!",
+                body: "<p>blaaabla</p>",
+                email: 'test@localhorst.local',
+                category_id: 2,
+                is_published: true,
+                publish_date: '2017-12-31'
+            }
+            */
+            submit: function(form, data) {
+                console.log("Submitting form", form);
+                return false;
+            },
+            validate: function(form) {
+                console.log("Validating form", form);
+                return false;
+            }
+        });
+        form1.on('change:int', function(field, form) {
+            console.log("[change:int] new val " + field.getValue());
+            form.getField('is_published').setValue((field.getValue() % 2 == 0));
+        });
+        form1.on('change', function(field, form) {
+            console.log("[change] field '" + field.key + "'" + " changed to '" + field.getValue() + "'");
+            form.getField('body').setValue(field.getValue());
+        });
+        form1.on('focus', function(field, form) {
+            console.log("[focus] field '" + field.key + "'");
+        });
+        form1.on('blur', function(field, form) {
+            console.log("[blur] field '" + field.key + "'");
+        });
+        $('#form-container').append(form1.render().$el);
+
+
+    </script>
+</body>
+</html>
