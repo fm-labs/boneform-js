@@ -49,7 +49,9 @@ Backbone.Form.Field = Backbone.View.extend({
 
         // create control
         if (!_.has(Backbone.Form.controls, this.options.type)) {
-            throw new Error("Control " + this.options.type + " not found!");
+            //throw new Error("Control " + this.options.type + " not found!");
+            console.warn("Control '" + this.options.type + "' not found for field '" + this.key + "'");
+            this.options.type = 'Text';
         }
         var ctrlOpts = _.extend({
             id: this.controlId,

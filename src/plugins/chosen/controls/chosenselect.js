@@ -2,6 +2,9 @@
 
     if (typeof ($.fn.chosen) === "undefined") {
         console.warn("Chosen JS is not loaded. Plugin skipped");
+
+        // fallback to Select control
+        Backbone.Form.controls.ChosenSelect = Backbone.Form.controls.Select.extend({});
         return;
     }
 

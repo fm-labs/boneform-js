@@ -8,6 +8,7 @@ var TestModel = Backbone.Model.extend({
         int: 42,
         title: "Wohooo",
         email: "magic.mike@example.org",
+        publish_start_date: '2018-02-02'
         //format: "xml",
         //category_id: 2
     },
@@ -49,6 +50,12 @@ var TestModel = Backbone.Model.extend({
             required: true,
             controlAttrs: {
                 rows: 7
+            }
+        },
+        html: {
+            type: 'HtmlEditor',
+            required: true,
+            controlAttrs: {
             }
         },
         is_published: {
