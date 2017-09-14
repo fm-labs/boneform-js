@@ -66,6 +66,8 @@ Backbone.Form = Backbone.View.extend({
     _buildField: function(fkey, fschema) {
 
         fschema = _.extend({
+            form: this,
+            model: this.model,
             key: fkey,
             idPrefix: this.options.idPrefix,
             type: null,

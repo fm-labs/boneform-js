@@ -11,6 +11,9 @@ Backbone.Form.Control = Backbone.View.extend({
     initialize: function(options) {
 
         options = _.extend({
+            form: null,
+            field: null,
+            data: null,
             id: null,
             name: null,
             attrs: {}
@@ -19,10 +22,14 @@ Backbone.Form.Control = Backbone.View.extend({
         var defaults = this.defaults || {};
         _.extend(this, defaults, options);
 
-        this.id = this.id || options.id;
-        this.name = this.name || options.name;
-        this.attrs = this.attrs || options.attrs || this.defaultAttrs || {};
-        this.options = _.omit(options, ['id', 'name', 'attrs']);
+        this.form = options.form || this.form;
+        this.field = options.field || this.field;
+        this.data = options.data || this.data;
+
+        this.id = options.id || this.id;
+        this.name = options.name || this.name;
+        this.attrs = options.attrs || this.attrs || this.defaultAttrs || {};
+        this.options = _.omit(options, ['id', 'name', 'attrs', 'form', 'field', 'data']);
 
         this.$el.attr('id', this.id);
         this.$el.attr('name', this.name);

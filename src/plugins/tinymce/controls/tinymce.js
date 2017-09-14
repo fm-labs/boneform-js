@@ -26,7 +26,7 @@
                     'blockquote | code',
 
                     'undo redo | cut copy paste | link image media | table'
-                ],
+                ]
                 //convert_urls: false, // default TRUE
                 //relative_urls: false, // default TRUE
                 //remove_script_host: false, // default TRUE
@@ -37,28 +37,21 @@
         render: function() {
             Backbone.Form.Control.prototype.render.call(this);
 
-            console.log("render htmleditor");
-
+            this.$el.html(this.data); // value has to be set before initializing tinymce
             this.$el.tinymce(this.editorOpts);
-
             return this;
-        },
-
-        /*
-        getValue: function() {
-            var format = this.editorOpts.formatSubmit || this.defaultFormat;
-            return this.$el.pickadate('editor').get('select', format);
         },
 
         setValue: function(val) {
-            var format = this.editorOpts.formatSubmit || this.defaultFormat;
-            this.$el.pickadate('editor').set('select', val, { format: format });
 
-            this.$el.attr('data-value', val);
-
+            //console.warn("[tinymce] !! setValue not supported !!", val);
+            //this.$el.html(val);
             return this;
+        },
+
+        getValue: function() {
+            return this.$el.val();
         }
-        */
     });
 
 })();

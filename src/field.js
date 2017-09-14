@@ -54,6 +54,9 @@ Backbone.Form.Field = Backbone.View.extend({
             this.options.type = 'Text';
         }
         var ctrlOpts = _.extend({
+            form: this.form,
+            data: this.model.get(this.key),
+            field: this,
             id: this.controlId,
             name: this.key,
             attrs: this.options.controlAttrs

@@ -8,9 +8,10 @@ var TestModel = Backbone.Model.extend({
         int: 42,
         title: "Wohooo",
         email: "magic.mike@example.org",
-        publish_start_date: '2018-02-02'
+        publish_start_date: '2018-02-02',
         //format: "xml",
-        //category_id: 2
+        //category_id: 2,
+        html: '<h1>Heading</h1><hr /><p>jojojojojojo <br /><strong>FETT</strong></p>'
     },
 
 
