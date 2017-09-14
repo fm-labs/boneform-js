@@ -1,11 +1,19 @@
 {
+  "name": "boneform-js",
+  "version": "0.1.0",
+  "description": "Backbone.js form builder",
+  "keywords": ["backbone", "form"],
+  "license": "UNLICENSED",
+  "repository": "github:fm-labs/boneform-js",
   "dependencies": {
     "backbone": "^1.3.3",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
     "bootstrap": "^3.3.7",
     "chosen-js": "^1.8.2",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
-    "pickadate": "^3.5.6",
-    "underscore": "^1.8.3"
+    "pickadate": "^3.5.6"
   }
 }
