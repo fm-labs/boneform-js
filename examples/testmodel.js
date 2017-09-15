@@ -54,7 +54,7 @@ var TestModel = Backbone.Model.extend({
             }
         },
         html: {
-            type: 'HtmlEditor',
+            type: 'Html',
             required: true,
             controlAttrs: {
             }

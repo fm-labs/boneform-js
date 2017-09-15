@@ -20,11 +20,9 @@ Backbone.Form = Backbone.View.extend({
         //console.log(options);
 
         this.model = this.model || options.model || undefined;
-        this.schema = this.schema || options.schema || model.schema || {};
+        this.schema = this.schema || options.schema || this.model.schema || {};
 
-        console.log(this.schema);
-
-        if (this.model === undefined && options.data) {
+        if ((this.model === undefined || this.model === null) && options.data) {
             this.model = new Backbone.Form.DataModel(options.data);
             console.log(this.model.toJSON());
         }
@@ -35,14 +33,13 @@ Backbone.Form = Backbone.View.extend({
             ajax: false,
             idPrefix: '',
             formAttrs: {},
-            formValidate: false, // use HTML5 form validation
+            formValidate: false // use HTML5 form validation
         }, _.omit(options, ['schema', 'model', 'data']));
 
         // init controls
         this.fields = {};
         _.each(this.schema, function(fschema, fkey) {
             //console.log(fkey, fschema);
-
             try {
                 this.fields[fkey] = this._buildField(fkey, fschema);
                 this.listenTo(this.fields[fkey], 'all', this.handleFieldEvent);
@@ -50,17 +47,8 @@ Backbone.Form = Backbone.View.extend({
                 console.error(ex);
                 //@TODO handle _buildField exception
             }
-
         }, this);
 
-        // apply form attributes
-        this.$el.attr('method', this.options.method);
-        this.$el.attr('action', this.options.action);
-        this.$el.attr('role', 'form');
-        this.$el.attr(this.options.formAttrs);
-        if (!this.options.formValidate) {
-            this.$el.attr('novalidate', 'novalidate');
-        }
     },
 
     _buildField: function(fkey, fschema) {
@@ -112,11 +100,22 @@ Backbone.Form = Backbone.View.extend({
 
     render: function() {
 
+        // trigger 'afterRender' event
+        this.trigger('beforeRender', this);
+
+        // apply form attributes
+        this.$el.attr('method', this.options.method);
+        this.$el.attr('action', this.options.action);
+        this.$el.attr('role', 'form');
+        this.$el.attr(this.options.formAttrs);
+        if (!this.options.formValidate) {
+            this.$el.attr('novalidate', 'novalidate');
+        }
         this.$el.html("");
 
         // render controls
         _.each(this.fields, function(field, fkey) {
-            this.$el.append(field.render().el);
+            this.$el.append(field.render().$el);
         }, this);
 
         // fill form data
@@ -131,6 +130,9 @@ Backbone.Form = Backbone.View.extend({
             label: "Submit"
         });
         this.$el.append($button.render().el);
+
+        // trigger 'afterRender' event
+        this.trigger('afterRender', this);
 
         return this;
     },

@@ -43,6 +43,8 @@
     <!-- TinyMCE
     -->
     <script src="../node_modules/tinymce/tinymce.js"></script>
+    <!--
+    -->
     <script src="../node_modules/tinymce/tinymce.jquery.js"></script>
     <script src="../node_modules/tinymce/jquery.tinymce.js"></script>
     <script src="../src/plugins/tinymce/controls/tinymce.js"></script>
@@ -68,7 +70,13 @@
 
     <div id="field-test"></div>
 
-    <div id="form-container" style="max-width: 1000px;"></div>
+    <div id="form-container" style="max-width: 1000px;">
+        <form id="test-form"></form>
+    </div>
+
+    <textarea id="test-area">
+        <p>blubb</p>
+    </textarea>
 
     <!--
     <div id="chosen-test">
@@ -88,80 +96,87 @@
         //f1.setElement('#field-test');
         //f1.render();
 
+        $(document).ready(function() {
+
+
+            tinymce.init({'selector': '#test-area'});
+            //tinyMCE.execCommand('mceAddEditor', false, '#test-area');
+
+
         var model = new TestModel();
 
         var form1 = new Backbone.Form({
             formValidate: false,
             model: model,
             /*
-            schema: {
-                id: {
-                    type: 'Hidden',
-                    required: true,
-                    rules: {
-                        numeric: {},
-                    }
-                },
-                int: {
-                    type: 'Number',
-                    required: true,
-                    label: "Int Number",
-                    help: "An integer value between 0 and 100",
-                    rules: {
-                        "range": {min: 0, max: 100}
-                    }
-                },
-                title: {
-                    type: 'Text',
-                    required: true,
-                    rules: {
-                    }
-                },
-                email: {
-                    type: 'Text',
-                    required: false,
-                    rules: {
-                        "notempty": {},
-                        "email": {}
-                    }
-                },
-                body: {
-                    type: 'Textarea',
-                    required: true,
-                    controlAttrs: {
-                        rows: 7
-                    }
-                },
-                is_published: {
-                    type: 'Checkbox'
-                },
-                category_id: {
-                    type: 'Select',
-                    options: {
-                        1: "Blog",
-                        2: "News"
-                    }
-                },
-                format: {
-                    type: 'Select',
-                    options: function() {
-                        return {
-                            "json": "JSON Format",
-                            "xml": "XML Format"
-                        }
-                    },
-                    //empty: "- Default -",
-                    empty: true,
-                    required: true,
-                    rules: {
-                        "notempty": {}
-                    }
-                },
-                publish_date: {
-                    type: 'Date'
-                }
-            },
-            */
+             schema: {
+             id: {
+             type: 'Hidden',
+             required: true,
+             rules: {
+             numeric: {},
+             }
+             },
+             int: {
+             type: 'Number',
+             required: true,
+             label: "Int Number",
+             help: "An integer value between 0 and 100",
+             rules: {
+             "range": {min: 0, max: 100}
+             }
+             },
+             title: {
+             type: 'Text',
+             required: true,
+             rules: {
+             }
+             },
+             email: {
+             type: 'Text',
+             required: false,
+             rules: {
+             "notempty": {},
+             "email": {}
+             }
+             },
+             body: {
+             type: 'Textarea',
+             required: true,
+             controlAttrs: {
+             rows: 7
+             }
+             },
+             is_published: {
+             type: 'Checkbox'
+             },
+             category_id: {
+             type: 'Select',
+             options: {
+             1: "Blog",
+             2: "News"
+             }
+             },
+             format: {
+             type: 'Select',
+             options: function() {
+             return {
+             "json": "JSON Format",
+             "xml": "XML Format"
+             }
+             },
+             //empty: "- Default -",
+             empty: true,
+             required: true,
+             rules: {
+             "notempty": {}
+             }
+             },
+             publish_date: {
+             type: 'Date'
+             }
+             },
+             */
             //method: 'POST',
             action: 'json.php',
             ajax: 'json',
@@ -172,16 +187,16 @@
                 class: 'my-form form-horizontal'
             },
             /*
-            data: {
-                id: 12,
-                title: "Awsome!",
-                body: "<p>blaaabla</p>",
-                email: 'test@localhorst.local',
-                category_id: 2,
-                is_published: true,
-                publish_date: '2017-12-31'
-            }
-            */
+             data: {
+             id: 12,
+             title: "Awsome!",
+             body: "<p>blaaabla</p>",
+             email: 'test@localhorst.local',
+             category_id: 2,
+             is_published: true,
+             publish_date: '2017-12-31'
+             }
+             */
             submit: function(form, data) {
                 console.log("Submitting form", form);
                 return false;
@@ -205,7 +220,13 @@
         form1.on('blur', function(field, form) {
             console.log("[blur] field '" + field.key + "'");
         });
-        $('#form-container').append(form1.render().$el);
+        //$('#form-container').append(form1.render().$el);
+        form1.setElement($('#test-form'));
+        form1.render();
+
+
+        });
+
 
 
     </script>
