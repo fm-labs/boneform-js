@@ -2,9 +2,16 @@ Backbone.Form.controls.Button = Backbone.Form.Control.extend({
 
     tagName: 'button',
 
+    initialize: function(options) {
+        Backbone.Form.Control.prototype.initialize.call(this, options);
+
+        this.label = this.options.label || options.label || "Submit";
+        this.type = this.options.type || 'submit';
+    },
+
     render: function() {
-        this.$el.attr('type', 'submit');
-        this.$el.html("Submit");
+        this.$el.attr('type', this.type);
+        this.$el.html(this.label);
         return this;
     },
 

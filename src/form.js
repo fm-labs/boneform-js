@@ -115,7 +115,7 @@ Backbone.Form = Backbone.View.extend({
 
         // render controls
         _.each(this.fields, function(field, fkey) {
-            this.$el.append(field.render().$el);
+            this.$el.append(field.render().el);
         }, this);
 
         // fill form data
@@ -126,9 +126,12 @@ Backbone.Form = Backbone.View.extend({
         }
 
         // render submit button
+        /*
         $button = new Backbone.Form.controls.Button({
             label: "Submit"
         });
+         */
+        var $button = new Backbone.Form.Submit();
         this.$el.append($button.render().el);
 
         // trigger 'afterRender' event
@@ -273,6 +276,7 @@ Backbone.Form = Backbone.View.extend({
                 console.error(ex);
             }
         } else {
+            alert("No suitable submit handler found");
             console.error("No suitable submit handler found");
         }
 

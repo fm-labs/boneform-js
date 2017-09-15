@@ -12,6 +12,7 @@
     <script src="../src/form.js"></script>
     <script src="../src/datamodel.js"></script>
     <script src="../src/field.js"></script>
+    <script src="../src/submit.js"></script>
     <script src="../src/control.js"></script>
     <script src="../src/controls/text.js"></script>
     <script src="../src/controls/number.js"></script>
@@ -74,10 +75,6 @@
         <form id="test-form"></form>
     </div>
 
-    <textarea id="test-area">
-        <p>blubb</p>
-    </textarea>
-
     <!--
     <div id="chosen-test">
         <select id="chosen-select">
@@ -97,10 +94,6 @@
         //f1.render();
 
         $(document).ready(function() {
-
-
-            tinymce.init({'selector': '#test-area'});
-            //tinyMCE.execCommand('mceAddEditor', false, '#test-area');
 
 
         var model = new TestModel();
