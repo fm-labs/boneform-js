@@ -206,10 +206,25 @@ Backbone.Form = Backbone.View.extend({
         return errors;
     },
 
-    invalidate: function(errors) { // errors = { [field] => [error message] }
+    /**
+     * Invalidate fields
+     * Sets error message for given fields
+     * Optionally update field's error state (renders the error message)
+     *
+     * @param errors
+     * @param options
+     */
+    invalidate: function(errors, options) { // errors = { [field] => [error message] }
+
+        options = _.extend({ updateState: true }, options);
+
         _.each(errors, function(err, fkey) {
             if (_.has(this.fields, fkey)) {
-                this.fields[fkey].setError({type: 'model', message: err}).updateErrorState();
+                this.fields[fkey].setError({type: 'model', message: err});
+
+                if (options.updateState) {
+                    this.fields[fkey].updateErrorState();
+                }
             }
         }, this);
     },
