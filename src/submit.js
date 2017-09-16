@@ -5,9 +5,19 @@
      */
     Backbone.Form.Submit = Backbone.View.extend({
 
+        /*
         template: _.template('\
             <div class="form-group">\
                 <div class="col-xs-offset-4 col-xs-8 col-sm-offset-6 col-sm-6">\
+                    <span data-control>&nbsp;</span>\
+                </div>\
+            </div>\
+        '),
+        */
+
+        template: _.template('\
+            <div class="form-group">\
+                <div class="form-submit">\
                     <span data-control>&nbsp;</span>\
                 </div>\
             </div>\
