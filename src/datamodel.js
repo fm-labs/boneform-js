@@ -4,18 +4,12 @@ Backbone.Form.DataModel = Backbone.Model.extend({
         "mode": "local"
     },
 
-    initialize: function() {
-        console.log("init default data model");
-    },
+    initialize: function() {},
 
     save: false,
-
     sync: false,
-
     fetch: false,
-
     url: false,
-
-    urlRoot: false,
+    urlRoot: false
 
 });

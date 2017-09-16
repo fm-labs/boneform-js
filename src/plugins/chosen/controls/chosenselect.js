@@ -58,7 +58,6 @@
             this.$el.html(this.select.render().el);
 
             // activate chosen-js
-            console.log(this.options.chosen);
             var self = this;
             this.select.$el
                 .chosen(this.options.chosen)

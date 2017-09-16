@@ -42,7 +42,7 @@
             // if lazy-loading is not activated, initialize tinymce editor after the form has rendered
             if (!this.lazyLoad) {
                 this.listenTo(this.form, 'afterRender', function() {
-                    console.log("[tinymce] afterRender");
+                    //console.log("[tinymce] afterRender");
                     var editorOpts = _.extend({selector: self}, self.editorOpts);
                     self.$el.tinymce(editorOpts);
 
@@ -53,12 +53,11 @@
                     self.$el.parent()
                         .append($('<button>', {type: 'button', 'class': 'btn btn-default'}).html('Open in Editor'))
                         .on('click', function(ev) {
-
-                            console.log("[tinymce] open editor");
+                            //console.log("[tinymce] open editor");
                             var editorOpts = _.extend({selector: self}, self.editorOpts);
                             self.$el.tinymce(editorOpts);
 
-                            $(ev.target).hide();
+                            $(ev.target).hide(); // hide the button
 
                             ev.preventDefault();
                             return false;

@@ -24,11 +24,10 @@ Backbone.Form = Backbone.View.extend({
 
         if ((this.model === undefined || this.model === null) && options.data) {
             this.model = new Backbone.Form.DataModel(options.data);
-            console.log(this.model.toJSON());
+            console.log("init default data model", this.model.toJSON());
         }
 
         if (options.$el) {
-            console.log("Set element", options.$el);
             this.setElement(options.$el);
         }
 
@@ -133,10 +132,10 @@ Backbone.Form = Backbone.View.extend({
                 var fields = [];
                 if ($(this).data('fields')) {
                     fields = $(this).data('fields').split(",")
-                    console.log("Found fields", fields);
+                    //console.log("Found fields", fields);
                 } else {
+                    //console.log("Found fields wildcard - Injecting all fields");
                     fields = _.keys(self.fields);
-                    console.log("Found fields wildcard - Injecting all fields");
                 }
 
                 // inject a legend
@@ -146,7 +145,7 @@ Backbone.Form = Backbone.View.extend({
 
                 // inject field stubs into fieldset
                 _.each(fields, function(field) {
-                    console.log("Add field to fieldset", field);
+                    //console.log("Add field to fieldset", field);
                     $(this).append($('<span>').attr({'data-field': field}));
                 }, this)
             });
@@ -242,8 +241,14 @@ Backbone.Form = Backbone.View.extend({
      * Force reset of field error states
      */
     resetErrorStates: function() {
+
+        // reset fieldsets states
+        this.$el.find('fieldset').each(function(){
+            $(this).removeClass(Backbone.Form.Field.prototype.errorClass);
+        });
+
+        // reset field states
         _.each(this.fields, function(field, fkey) {
-            console.log(fkey, field);
             field.setError(false).resetErrorState();
         }, this);
     },

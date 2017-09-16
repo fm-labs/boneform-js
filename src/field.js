@@ -102,7 +102,7 @@ Backbone.Form.Field = Backbone.View.extend({
                 return;
             }
 
-            console.log("Added Validator " + vkey + " for field " + this.key);
+            //console.log("Added Validator " + vkey + " for field " + this.key);
             this.validators[vkey] = validator(voptions);
         }, this);
     },
@@ -190,10 +190,14 @@ Backbone.Form.Field = Backbone.View.extend({
             this.$el.removeClass(this.validClass);
             this.$el.addClass(this.errorClass);
 
+            this.$el.parent('fieldset').addClass(this.errorClass);
+
         } else {
             this.$el.find('[data-error]').html("");
             this.$el.removeClass(this.errorClass);
             this.$el.addClass(this.validClass);
+
+            this.$el.parent('fieldset').removeClass(this.errorClass);
         }
         return this;
     },
