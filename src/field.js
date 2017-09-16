@@ -20,29 +20,39 @@ Backbone.Form.Field = Backbone.View.extend({
     validClass: '',
     activeClass: 'is-active',
 
+    defaultOptions: {
+        // references
+        form: null,
+        model: null,
+
+        // validation
+        rules: null,
+
+        // field (will be passed to the control as well, except 'fieldAttrs')
+        key: null,
+        type: null,
+        idPrefix: '',
+        label: '',
+        help: '',
+        required: false,
+        fieldAttrs: {},
+
+        // control (will be passed to the control as 'attrs' option)
+        controlAttrs: {}
+    },
+
     initialize: function(options) {
 
-        this.key = options.key || null;
-        this.form = this.form || options.form || null;
-        this.model = this.model || options.model || null;
-        this.rules = this.rules || options.rules || {};
-        //this.control = this.control || options.control || {};
-        //this.controlAttrs = this.controlAttrs || options.controlAttrs || {};
-        
-        this.options = _.extend({
-            // field
-            type: null,
-            idPrefix: '',
-            label: '',
-            help: '',
-            required: false,
-
-            control: {},
-            controlAttrs: {}
-            //fieldAttrs: {},
-        }, _.omit(options, ['key', 'form', 'model', 'rules']));
+        options = _.extend({}, this.defaultOptions, options);
 
         this.errors = [];
+        this.key = options.key || undefined;
+        this.form = options.form || this.form || null;
+        this.model = options.model || this.model || null;
+        this.rules = options.rules || this.rules || {};
+        this.controlAttrs = options.controlAttrs || this.controlAttrs || {};
+        this.fieldAttrs = options.fieldAttrs || this.fieldAttrs || {};
+        this.options = _.omit(options, ['key', 'form', 'model', 'rules', 'controlAttrs', 'fieldAttrs']);
 
         // generate control id
         this.controlId = this.options.idPrefix + this.key;
@@ -59,8 +69,8 @@ Backbone.Form.Field = Backbone.View.extend({
             field: this,
             id: this.controlId,
             name: this.key,
-            attrs: this.options.controlAttrs
-        }, this.options.control);
+            attrs: this.controlAttrs
+        }, this.options);
         this.control = new Backbone.Form.controls[this.options.type](ctrlOpts);
 
         // auto-attach 'required' validator
@@ -92,6 +102,7 @@ Backbone.Form.Field = Backbone.View.extend({
         });
         this.setElement($field);
 
+        this.$el.attr(this.fieldAttrs);
         this.$el.find('[data-control]').replaceWith(this.control.render().el);
         this.control.trigger('afterRender', this);
 
@@ -103,7 +114,7 @@ Backbone.Form.Field = Backbone.View.extend({
         // https://getbootstrap.com/docs/3.3/javascript/#tooltips
         this.$el.find('[data-toggle="tooltip"]').tooltip({
             placement: 'auto right',
-            html: false,
+            html: false
         });
 
         return this;

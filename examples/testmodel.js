@@ -65,34 +65,28 @@ var TestModel = Backbone.Model.extend({
         parent_id: {
             type: 'Select',
             required: true,
-            control: {
-                placeholder: "Ahoii!",
-                options: {
-                    1: "Parent 1",
-                    2: "Parent 2"
-                }
+            placeholder: "Ahoii!",
+            options: {
+                1: "Parent 1",
+                2: "Parent 2"
             }
         },
         category_id: {
             type: 'ChosenSelect',
             required: true,
-            control: {
-                placeholder: false,
-                options: {
-                    1: "Blog",
-                    2: "News"
-                }
+            placeholder: false,
+            options: {
+                1: "Blog",
+                2: "News"
             }
         },
         format: {
             type: 'ChosenSelect',
-            control: {
-                placeholder: "Hello",
-                options: function() {
-                    return {
-                        "json": "JSON Format",
-                        "xml": "XML Format"
-                    }
+            placeholder: "Hello",
+            options: function() {
+                return {
+                    "json": "JSON Format",
+                    "xml": "XML Format"
                 }
             },
             rules: {

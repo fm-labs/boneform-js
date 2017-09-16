@@ -12,8 +12,8 @@ Backbone.Form.controls.Select = Backbone.Form.Control.extend({
     initialize: function(options) {
         Backbone.Form.Control.prototype.initialize.call(this, options);
 
-        this.selectOptions = this.selectOptions || this.options.options || options.options || {};
-        this.placeholder = this.placeholder || this.options.placeholder;
+        this.selectOptions = options.options || this.options.options || this.selectOptions || {};
+        this.placeholder = this.options.placeholder || this.placeholder;
         if (this.placeholder === true) { this.placeholder = this.defaultPlaceholder; } // set default placeholder
 
         console.log(options, this.placeholder);

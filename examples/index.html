@@ -22,7 +22,14 @@
     <script src="../src/controls/checkbox.js"></script>
     <script src="../src/controls/button.js"></script>
     <script src="../src/controls/date.js"></script>
+
     <script src="../src/validators.js"></script>
+
+    <script src="../src/handlers/default.js"></script>
+    <script src="../src/handlers/ajax.js"></script>
+    <script src="../src/handlers/json.js"></script>
+    <script src="../src/handlers/model.js"></script>
+
     <script src="../src/templates/bootstrap3.js"></script>
 
     <!-- ChosenJS
@@ -194,10 +201,12 @@
                 console.log("Submitting form", form);
                 return false;
             },
+            /*
             validate: function(form) {
                 console.log("Validating form", form);
                 return false;
             }
+            */
         });
         form1.on('change:int', function(field, form) {
             console.log("[change:int] new val " + field.getValue());

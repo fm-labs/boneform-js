@@ -27,13 +27,17 @@ Backbone.Form = Backbone.View.extend({
             console.log(this.model.toJSON());
         }
 
+        // allow complete override of submit and validate functions
+        //_.extend(this, _.pick(options, ['submit', 'validate']));
+
         this.options = _.extend({
             method: 'POST',
             action: null,
             ajax: false,
             idPrefix: '',
             formAttrs: {},
-            formValidate: false // use HTML5 form validation
+            formValidate: false, // use HTML5 form validation
+            onSubmit: function(form, data, options) {}
         }, _.omit(options, ['schema', 'model', 'data']));
 
         // init controls
@@ -203,90 +207,24 @@ Backbone.Form = Backbone.View.extend({
             return;
         }
 
-        // a) submit directly via multipart form
-        if (this.options.action && !this.options.ajax) {
-            console.log("Submit via http post");
-            return true;
+        if (typeof this.options.onSubmit === "function") {
+            return this.options.onSubmit.apply(this, [this, data, this.options]);
         }
 
-        // b) submit via xhr request (jqXHR)
-        else if (this.options.action && this.options.ajax) {
-            console.log("Submit via xhr post");
-
-            var self = this;
-            var ajaxSuccess = function(result) {
-                console.log("Yea!", result);
-
-                if (_.isObject(result)) {
-                    if (result.errors) {
-                        self.invalidate(result.errors);
-                    }
-                } else {
-                    console.warn("Unhandled result type");
-                }
-
-                /*
-                try {
-                    var json = JSON.parse(result);
-                    if (json.errors) {
-                        this.invalidate(json.errors);
-                    }
-                } catch (ex) {
-                    console.log("Result was not a valid JSON");
-                }
-                */
-            };
-            var ajaxError = function(xhr, textStatus) {
-                console.error("Dooo!", textStatus);
-            };
-
-            var ajaxSettings = {
-                url: action,
-                method: 'POST',
-                data: data,
-                success: ajaxSuccess,
-                error: ajaxError
-            };
-
-            // json
-            if (this.options.ajax === 'json') {
-                console.log("Submit via json post");
-
-                ajaxSettings = _.extend(ajaxSettings, {
-                    data: JSON.stringify(data),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                });
-            }
-            $.ajax(ajaxSettings);
-        }
-
-        // c) submit via model sync (jqXHR)
-        else if (this.model && _.isFunction(this.model.save)) {
-            try {
-                this.model.save({}, {
-                    success: function() {
-                        console.log("Saving was successful")
-                    },
-                    error: function() {
-                        console.log("Saving failed")
-                    }
-                });
-            } catch (ex) {
-                console.error(ex);
-            }
-        } else {
-            alert("No suitable submit handler found");
-            console.error("No suitable submit handler found");
-        }
+        this.trigger('submit', this, data, this.options);
 
         return false;
     },
 
+    /**
+     * Handle DOM event 'submit' in context of the jquery form object
+     * @param ev
+     * @returns bool
+     */
     handleSubmitEvent: function(ev) {
 
         var ret = this.submit();
-        if (!ret) {
+        if (!ret || ev.isPropagationStopped()) {
             ev.preventDefault();
         }
         return ret;
@@ -304,3 +242,4 @@ Backbone.Form = Backbone.View.extend({
 
 Backbone.Form.controls = {};
 Backbone.Form.validators = {};
+Backbone.Form.handlers = {};
