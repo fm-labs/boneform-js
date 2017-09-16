@@ -230,6 +230,25 @@ Backbone.Form = Backbone.View.extend({
     },
 
     /**
+     * Force update of field error states
+     */
+    updateErrorStates: function() {
+        _.each(this.fields, function(field, fkey) {
+            field.updateErrorState();
+        }, this);
+    },
+
+    /**
+     * Force reset of field error states
+     */
+    resetErrorStates: function() {
+        _.each(this.fields, function(field, fkey) {
+            console.log(fkey, field);
+            field.setError(false).resetErrorState();
+        }, this);
+    },
+
+    /**
      * Commit form data to model
      */
     commit: function(options) {
@@ -291,13 +310,20 @@ Backbone.Form = Backbone.View.extend({
         return ret;
     },
 
-    handleFieldEvent: function(event, field) {
+    handleFieldEvent: function(eventName, field) {
+
+        switch(eventName) {
+            case "change":
+                this.resetErrorStates();
+                //field.setError(false).resetErrorState();
+                break;
+        }
 
         // trigger [eventname]:[fieldname]
-        this.trigger(event + ':' + field.key, field, this);
+        this.trigger(eventName + ':' + field.key, field, this);
 
         // trigger [eventname]
-        this.trigger(event, field, this);
+        this.trigger(eventName, field, this);
     }
 });
 

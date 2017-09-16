@@ -169,7 +169,7 @@ Backbone.Form.Field = Backbone.View.extend({
     setError: function(err) {
         if (err === false) {
             this.errors = [];
-            return;
+            return this;
         }
 
         this.errors.push(err);
@@ -195,6 +195,12 @@ Backbone.Form.Field = Backbone.View.extend({
             this.$el.removeClass(this.errorClass);
             this.$el.addClass(this.validClass);
         }
+        return this;
+    },
+
+    resetErrorState: function() {
+        this.$el.removeClass(this.validClass);
+        this.$el.removeClass(this.errorClass);
         return this;
     },
 
