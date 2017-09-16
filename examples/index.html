@@ -91,11 +91,10 @@
     </style>
 </head>
 <body>
-    <h1>Backbone Controls Examples</h1>
-
-    <div id="field-test"></div>
 
     <div id="form-container" class="container" style="max-width: 1000px;">
+        <h1>Backbone Controls Examples</h1>
+
         <form id="test-form">
             <fieldset data-legend="Fieldset 1" data-fields="id,int"></fieldset>
             <fieldset data-fields="title,email"><legend>Foo Legend</legend></fieldset>
@@ -107,155 +106,134 @@
         </form>
     </div>
 
-    <!--
-    <div id="chosen-test">
-        <select id="chosen-select">
-            <option value="foo">Foo</option>
-            <option value="bar">Bar</option>
-        </select>
-
-    </div>
     <script>
-        $('#chosen-select').chosen();
-    </script>
-    -->
-
-    <script>
-        //var f1 = new Field({id: 'f1', 'name': 'f1', type: 'Text'});
-        //f1.setElement('#field-test');
-        //f1.render();
 
         $(document).ready(function() {
 
-
-        var model = new TestModel();
-
-        var form1 = new Backbone.Form({
-            //$el: $('#test-form'),
-            formValidate: false,
-            model: model,
-            /*
-             schema: {
-             id: {
-             type: 'Hidden',
-             required: true,
-             rules: {
-             numeric: {},
-             }
-             },
-             int: {
-             type: 'Number',
-             required: true,
-             label: "Int Number",
-             help: "An integer value between 0 and 100",
-             rules: {
-             "range": {min: 0, max: 100}
-             }
-             },
-             title: {
-             type: 'Text',
-             required: true,
-             rules: {
-             }
-             },
-             email: {
-             type: 'Text',
-             required: false,
-             rules: {
-             "notempty": {},
-             "email": {}
-             }
-             },
-             body: {
-             type: 'Textarea',
-             required: true,
-             controlAttrs: {
-             rows: 7
-             }
-             },
-             is_published: {
-             type: 'Checkbox'
-             },
-             category_id: {
-             type: 'Select',
-             options: {
-             1: "Blog",
-             2: "News"
-             }
-             },
-             format: {
-             type: 'Select',
-             options: function() {
-             return {
-             "json": "JSON Format",
-             "xml": "XML Format"
-             }
-             },
-             //empty: "- Default -",
-             empty: true,
-             required: true,
-             rules: {
-             "notempty": {}
-             }
-             },
-             publish_date: {
-             type: 'Date'
-             }
-             },
-             */
-            //method: 'POST',
-            action: 'json.php',
-            ajax: 'json',
-            //validate: 'default',
-            idPrefix: 'test_',
-            formAttrs: {
-                id: 'my-form-id',
-                //class: 'my-form form-horizontal'
-            },
-            /*
-             data: {
-             id: 12,
-             title: "Awsome!",
-             body: "<p>blaaabla</p>",
-             email: 'test@localhorst.local',
-             category_id: 2,
-             is_published: true,
-             publish_date: '2017-12-31'
-             }
-             */
-            submit: function(form, data) {
-                console.log("Submitting form", form);
-                return false;
-            },
-            /*
-            validate: function(form) {
-                console.log("Validating form", form);
-                return false;
-            }
-            */
-        });
-        form1.on('change:int', function(field, form) {
-            console.log("[change:int] new val " + field.getValue());
-            form.getField('is_published').setValue((field.getValue() % 2 == 0));
-        });
-        form1.on('change', function(field, form) {
-            console.log("[change] field '" + field.key + "'" + " changed to '" + field.getValue() + "'");
-            form.getField('body').setValue(field.getValue());
-        });
-        form1.on('focus', function(field, form) {
-            console.log("[focus] field '" + field.key + "'");
-        });
-        form1.on('blur', function(field, form) {
-            console.log("[blur] field '" + field.key + "'");
-        });
-        //$('#form-container').append(form1.render().$el);
-        form1.setElement($('#test-form'));
-        form1.render();
-
+            var model = new TestModel();
+            var form1 = new Backbone.Form({
+                //$el: $('#test-form'),
+                formValidate: false,
+                model: model,
+                /*
+                 schema: {
+                 id: {
+                 type: 'Hidden',
+                 required: true,
+                 rules: {
+                 numeric: {},
+                 }
+                 },
+                 int: {
+                 type: 'Number',
+                 required: true,
+                 label: "Int Number",
+                 help: "An integer value between 0 and 100",
+                 rules: {
+                 "range": {min: 0, max: 100}
+                 }
+                 },
+                 title: {
+                 type: 'Text',
+                 required: true,
+                 rules: {
+                 }
+                 },
+                 email: {
+                 type: 'Text',
+                 required: false,
+                 rules: {
+                 "notempty": {},
+                 "email": {}
+                 }
+                 },
+                 body: {
+                 type: 'Textarea',
+                 required: true,
+                 controlAttrs: {
+                 rows: 7
+                 }
+                 },
+                 is_published: {
+                 type: 'Checkbox'
+                 },
+                 category_id: {
+                 type: 'Select',
+                 options: {
+                 1: "Blog",
+                 2: "News"
+                 }
+                 },
+                 format: {
+                 type: 'Select',
+                 options: function() {
+                 return {
+                 "json": "JSON Format",
+                 "xml": "XML Format"
+                 }
+                 },
+                 //empty: "- Default -",
+                 empty: true,
+                 required: true,
+                 rules: {
+                 "notempty": {}
+                 }
+                 },
+                 publish_date: {
+                 type: 'Date'
+                 }
+                 },
+                 */
+                //method: 'POST',
+                action: 'json.php',
+                ajax: 'json',
+                //validate: 'default',
+                idPrefix: 'test_',
+                formAttrs: {
+                    id: 'my-form-id',
+                    //class: 'my-form form-horizontal'
+                },
+                /*
+                 data: {
+                 id: 12,
+                 title: "Awsome!",
+                 body: "<p>blaaabla</p>",
+                 email: 'test@localhorst.local',
+                 category_id: 2,
+                 is_published: true,
+                 publish_date: '2017-12-31'
+                 }
+                 */
+                submit: function(form, data) {
+                    console.log("Submitting form", form);
+                    return false;
+                },
+                /*
+                validate: function(form) {
+                    console.log("Validating form", form);
+                    return false;
+                }
+                */
+            });
+            form1.on('change:int', function(field, form) {
+                console.log("[change:int] new val " + field.getValue());
+                form.getField('is_published').setValue((field.getValue() % 2 == 0));
+            });
+            form1.on('change', function(field, form) {
+                console.log("[change] field '" + field.key + "'" + " changed to '" + field.getValue() + "'");
+                form.getField('body').setValue(field.getValue());
+            });
+            form1.on('focus', function(field, form) {
+                console.log("[focus] field '" + field.key + "'");
+            });
+            form1.on('blur', function(field, form) {
+                console.log("[blur] field '" + field.key + "'");
+            });
+            //$('#form-container').append(form1.render().$el);
+            form1.setElement($('#test-form'));
+            form1.render();
 
         });
-
-
 
     </script>
 </body>
