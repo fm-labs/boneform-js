@@ -21,8 +21,8 @@
         events: {},
 
         chosenDefaults: {
-            width: '100%',
-            search_contains: true,
+            width: 'auto',
+            search_contains: true
             //disable_search_threshold: 10
         },
 

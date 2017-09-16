@@ -3,16 +3,31 @@
  */
 Backbone.Form.Field = Backbone.View.extend({
 
+    /*
     template: _.template('\
         <div class="form-group">\
-            <label class="col-xs-4 col-sm-6 control-label" for="<%= controlId %>">\
+            <label class="col-xs-4 col-sm-5 control-label" for="<%= controlId %>">\
                 <span><%= label %></span>\
                 <button type="button" class="btn btn-link" data-toggle="tooltip" title="<%= help %>"><i class="fa fa-question-circle" aria-hidden="true"></i></button>\
             </label>\
-            <div class="col-xs-8 col-sm-6">\
+            <div class="col-xs-8 col-sm-7">\
                 <span data-control>&nbsp;</span>\
                 <p class="help-block" data-error></p>\
             </div>\
+        </div>\
+    '),
+    */
+
+    template: _.template('\
+        <div class="form-group">\
+            <label class="control-label" for="<%= controlId %>">\
+                <span><%= label %></span>\
+                <button type="button" class="btn btn-link" data-toggle="tooltip" title="<%= help %>"><i class="fa fa-question-circle" aria-hidden="true"></i></button>\
+            </label>\
+            <!--<div class="control-item">-->\
+                <span data-control>&nbsp;</span>\
+                <p class="help-block" data-error></p>\
+            <!--</div>-->\
         </div>\
     '),
 

@@ -27,6 +27,11 @@ Backbone.Form = Backbone.View.extend({
             console.log(this.model.toJSON());
         }
 
+        if (options.$el) {
+            console.log("Set element", options.$el);
+            this.setElement(options.$el);
+        }
+
         // allow complete override of submit and validate functions
         //_.extend(this, _.pick(options, ['submit', 'validate']));
 
@@ -38,7 +43,7 @@ Backbone.Form = Backbone.View.extend({
             formAttrs: {},
             formValidate: false, // use HTML5 form validation
             onSubmit: function(form, data, options) {}
-        }, _.omit(options, ['schema', 'model', 'data']));
+        }, _.omit(options, ['schema', 'model', 'data', '$el']));
 
         // init controls
         this.fields = {};
@@ -104,6 +109,8 @@ Backbone.Form = Backbone.View.extend({
 
     render: function() {
 
+        var self = this;
+
         // trigger 'afterRender' event
         this.trigger('beforeRender', this);
 
@@ -115,12 +122,56 @@ Backbone.Form = Backbone.View.extend({
         if (!this.options.formValidate) {
             this.$el.attr('novalidate', 'novalidate');
         }
-        this.$el.html("");
 
-        // render controls
-        _.each(this.fields, function(field, fkey) {
-            this.$el.append(field.render().el);
-        }, this);
+
+        // render fieldsets
+        var $fieldsets = this.$el.find('fieldset[data-fields]');
+        if ($fieldsets.length > 0) {
+            $fieldsets.each(function() {
+                // read field names from 'data-fields' attribute
+                // if 'data-fields' is set, but no value given, all fields in schema will be injected
+                var fields = [];
+                if ($(this).data('fields')) {
+                    fields = $(this).data('fields').split(",")
+                    console.log("Found fields", fields);
+                } else {
+                    fields = _.keys(self.fields);
+                    console.log("Found fields wildcard - Injecting all fields");
+                }
+
+                // inject a legend
+                if ($(this).find('legend').length < 1 && $(this).data('legend')) {
+                    $(this).prepend($('<legend>').html($(this).data('legend')));
+                }
+
+                // inject field stubs into fieldset
+                _.each(fields, function(field) {
+                    console.log("Add field to fieldset", field);
+                    $(this).append($('<span>').attr({'data-field': field}));
+                }, this)
+            });
+        }
+
+        // render fields
+        var $fields = this.$el.find('[data-field]');
+        if ($fields.length > 0) {
+            var _rendered = {};
+            $fields.each(function() {
+                var fieldName = $(this).data('field');
+                if (_.has(self.fields, fieldName) && _rendered[fieldName] !== true) {
+                    var field = self.fields[fieldName];
+                    $(this).replaceWith(field.render().el);
+                    _rendered[fieldName] = true;
+                }
+            });
+        } else {
+
+            // if no data-fieldsets or data-field elements are found in the form body
+            // render all fields in the schema
+            _.each(this.fields, function(field, fkey) {
+                this.$el.append(field.render().el);
+            }, this);
+        }
 
         // fill form data
         if (this.model) {
@@ -130,11 +181,6 @@ Backbone.Form = Backbone.View.extend({
         }
 
         // render submit button
-        /*
-        $button = new Backbone.Form.controls.Button({
-            label: "Submit"
-        });
-         */
         var $button = new Backbone.Form.Submit();
         this.$el.append($button.render().el);
 

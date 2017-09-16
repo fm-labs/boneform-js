@@ -40,7 +40,11 @@
 
         setValue: function(val) {
             var format = this.pickerOpts.formatSubmit || this.defaultFormat;
-            this.$el.pickadate('picker').set('select', val, { format: format });
+
+            var picker = this.$el.pickadate('picker');
+            if (picker) {
+                picker.set('select', val, { format: format });
+            };
 
             this.$el.attr('data-value', val);
 
